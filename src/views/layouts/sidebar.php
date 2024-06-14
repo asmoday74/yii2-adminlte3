@@ -33,7 +33,7 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <?php
-            echo @backend\widgets\Menu::widget([
+            echo asmoday74\adminlte3\widgets\Menu::widget([
                 'items' => [
                    
                     ['label' => 'Yii2 PROVIDED', 'header' => true],
