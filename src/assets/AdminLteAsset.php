@@ -17,7 +17,5 @@ class AdminLteAsset extends AssetBundle
 
     public $depends = [
         'asmoday74\adminlte3\assets\BaseAsset',
-        'asmoday74\adminlte3\assets\AppAsset',
-        //'PluginAsset'
     ];
 }
