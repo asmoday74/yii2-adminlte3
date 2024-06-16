@@ -7,7 +7,6 @@ use yii\helpers\Html;
 
 \asmoday74\fontawesome6\FontAwesomeAsset::register($this);
 \asmoday74\adminlte3\assets\AdminLteAsset::register($this);
-\asmoday74\adminlte3\assets\ControlSidebarAsset::register($this);
 $this->registerCssFile('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback');
 
 $assetDir = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
@@ -38,10 +37,6 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/admi
     <!-- Content Wrapper. Contains page content -->
     <?= $this->render('content', ['content' => $content, 'assetDir' => $assetDir]) ?>
     <!-- /.content-wrapper -->
-
-    <!-- Control Sidebar -->
-    <?= $this->render('control-sidebar') ?>
-    <!-- /.control-sidebar -->
 
     <!-- Main Footer -->
     <?= $this->render('footer') ?>

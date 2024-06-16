@@ -20,14 +20,11 @@ use \asmoday74\adminlte3\widgets\ToastAlert;
                         ?>
                     </h1>
                 </div><!-- /.col -->
-                <div class="col-sm-6">
+                <div class="col-sm-6 text-right">
                     <?php
-                    echo Breadcrumbs::widget([
-                        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                        'options' => [
-                            'class' => 'breadcrumb float-sm-right'
-                        ]
-                    ]);
+                        if (isset($this->params['actions'])) {
+                            echo implode("\n",$this->params['actions']);
+                        }
                     ?>
                 </div><!-- /.col -->
             </div><!-- /.row -->
