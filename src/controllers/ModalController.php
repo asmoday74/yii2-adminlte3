@@ -15,6 +15,9 @@ class ModalController extends Controller
      */
     public function actionIndex()
     {
+        $data = \Yii::$app->request->post();
+
+
         return $this->renderPartial('index');
     }
 }
