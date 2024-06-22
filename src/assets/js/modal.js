@@ -1,16 +1,23 @@
 
 function loadForm(data) {
-    if ('title' in data) {
-        $("#modal-edit .modal-title").html(data['title']);
-    }
-    if ('size' in data) {
-        $("#modal-edit .modal-dialog").addClass('modal-'+data['size']);
-    }
+    let modal = $("#modal-edit");
     if ('url' in data) {
-        $("#modal-edit").modal('show')
-            .find('.modal-body')
-            .load(data['url']);
+        $.getJSON(data['url'], function(result) {
+            if (result.data) {
+                const data = result.data;
+                if (result.modalCancel) {
+                    modal.find('.btn[data-bs-dismiss="modal"]').html(result.modalCancel);
+                }
+                if (result.modalSubmit) {
+                    modal.html(result.modalSubmit);
+                }
+            } else {
+                const data = result;
+            }
+            modal.find('.modal-body').html(data);
+        });
     }
+    modal.modal('show');
 }
 
 $('body')
@@ -19,19 +26,24 @@ $('body')
         $.post($(this).attr("action"), $(this).serialize())
             .done(function(result){
                 const resultObj = JSON.parse(result);
-                const pjaxModalContainer = $('div[data-pjax-container]');
-                if (pjaxModalContainer.length) {
-                    $.pjax.reload({'container': '#' + pjaxModalContainer.attr('id')});
+                if ((resultObj.reload) && (resultObj.data)) {
+                    $("#modal-edit").find('.modal-body').html(resultObj.data);
+                } else {
+                    const pjaxModalContainer = $('div[data-pjax-container]');
+                    if (pjaxModalContainer.length) {
+                        $.pjax.reload({'container': '#' + pjaxModalContainer.attr('id')});
+                    }
+                    $("#modal-edit").modal('hide');
                 }
-                $("#modal-edit").modal('hide');
                 if (resultObj.message) {
                     $('#modalToast').find('.toast-body').html(resultObj.message);
                     $("#modalToast").toast('show');
                 }
             })
             .fail(function(){
-                console.log("Modal form submit error");
-            });
+                    console.log("Modal form submit error");
+                }
+            );
     })
     .on('click', '#modal-submit',function () {
         $('body').find('#modal-edit').find('form').submit();
@@ -41,6 +53,7 @@ $('body')
         if ($('#modal-edit').length === 0) {
             $.ajax({
                 type: 'POST',
+                data: modalParam,
                 dataType: 'html',
                 url: '/adminlte/modal',
                 success: function (data) {
