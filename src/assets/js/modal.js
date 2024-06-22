@@ -1,43 +1,44 @@
 
 function loadForm(data) {
-    let modal = $("#modal-edit");
+    let modalDialog = $("#modal-edit");
     if ('url' in data) {
         $.getJSON(data['url'], function(result) {
             if (result.data) {
-                const data = result.data;
+                modalDialog.find('.modal-body').html(result.data);
                 if (result.modalCancel) {
-                    modal.find('.btn[data-bs-dismiss="modal"]').html(result.modalCancel);
+                    modalDialog.find('.btn[data-bs-dismiss="modal"]').html(result.modalCancel);
                 }
                 if (result.modalSubmit) {
-                    modal.html(result.modalSubmit);
+                    modalDialog.find('#modal-submit').html(result.modalSubmit);
                 }
             } else {
-                const data = result;
+                modalDialog.find('.modal-body').html(result);
             }
-            modal.find('.modal-body').html(data);
         });
     }
-    modal.modal('show');
+    modalDialog.modal('show');
 }
 
 $('body')
     .on('submit', '#modal-edit form',function (event) {
         event.preventDefault();
         $.post($(this).attr("action"), $(this).serialize())
-            .done(function(result){
-                const resultObj = JSON.parse(result);
-                if ((resultObj.reload) && (resultObj.data)) {
-                    $("#modal-edit").find('.modal-body').html(resultObj.data);
+            .done(function(result) {
+                let resultObj = JSON.parse(result);
+                if (resultObj) {
+                    if (resultObj.hasOwnProperty('data')) {
+                        $("#modal-edit").find('.modal-body').html(resultObj.data);
+                    }
+                    if (resultObj.hasOwnProperty('message')) {
+                        $('#modalToast').find('.toast-body').html(resultObj.message);
+                        $("#modalToast").toast('show');
+                    }
                 } else {
-                    const pjaxModalContainer = $('div[data-pjax-container]');
+                    let pjaxModalContainer = $('div[data-pjax-container]');
                     if (pjaxModalContainer.length) {
                         $.pjax.reload({'container': '#' + pjaxModalContainer.attr('id')});
                     }
                     $("#modal-edit").modal('hide');
-                }
-                if (resultObj.message) {
-                    $('#modalToast').find('.toast-body').html(resultObj.message);
-                    $("#modalToast").toast('show');
                 }
             })
             .fail(function(){
