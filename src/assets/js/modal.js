@@ -5,8 +5,8 @@ function loadForm(data) {
         $.get(data['url'], function(result) {
             try {
                 let response = JSON.parse(result);
-                if (result.data) {
-                    modalDialog.find('.modal-body').html(result.data);
+                if (response.data) {
+                    modalDialog.find('.modal-body').html(response.data);
                     if (response.modalSize) {
                         modalDialog.find('.modal-dialog')
                             .removeClass('modal-sm')
