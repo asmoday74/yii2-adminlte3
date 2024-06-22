@@ -2,16 +2,31 @@
 function loadForm(data) {
     let modalDialog = $("#modal-edit");
     if ('url' in data) {
-        $.getJSON(data['url'], function(result) {
-            if (result.data) {
-                modalDialog.find('.modal-body').html(result.data);
-                if (result.modalCancel) {
-                    modalDialog.find('.btn[data-bs-dismiss="modal"]').html(result.modalCancel);
+        $.get(data['url'], function(result) {
+            try {
+                let response = JSON.parse(result);
+                if (result.data) {
+                    modalDialog.find('.modal-body').html(result.data);
+                    if (response.modalSize) {
+                        modalDialog.find('.modal-dialog')
+                            .removeClass('modal-sm')
+                            .removeClass('modal-lg')
+                            .removeClass('modal-xl')
+                            .addClass(response.modalSize);
+                    }
+                    if (response.modalTitle) {
+                        modalDialog.find('.modal-title').html(response.modalTitle);
+                    }
+                    if (result.modalCancel) {
+                        modalDialog.find('.btn[data-bs-dismiss="modal"]').html(response.modalCancel);
+                    }
+                    if (result.modalSubmit) {
+                        modalDialog.find('#modal-submit').html(response.modalSubmit);
+                    }
+                } else {
+                    modalDialog.find('.modal-body').html(response);
                 }
-                if (result.modalSubmit) {
-                    modalDialog.find('#modal-submit').html(result.modalSubmit);
-                }
-            } else {
+            } catch (err) {
                 modalDialog.find('.modal-body').html(result);
             }
         });
