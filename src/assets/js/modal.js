@@ -1,34 +1,31 @@
-
 function loadForm(data) {
     let modalDialog = $("#modal-edit");
+
     if ('url' in data) {
-        $.get(data['url'], function(result) {
-            try {
-                let response = JSON.parse(result);
-                if (response.data) {
-                    modalDialog.find('.modal-body').html(response.data);
-                    if (response.modalSize) {
-                        modalDialog.find('.modal-dialog')
-                            .removeClass('modal-sm')
-                            .removeClass('modal-lg')
-                            .removeClass('modal-xl')
-                            .addClass(response.modalSize);
-                    }
-                    if (response.modalTitle) {
-                        modalDialog.find('.modal-title').html(response.modalTitle);
-                    }
-                    if (result.modalCancel) {
-                        modalDialog.find('.btn[data-bs-dismiss="modal"]').html(response.modalCancel);
-                    }
-                    if (result.modalSubmit) {
-                        modalDialog.find('#modal-submit').html(response.modalSubmit);
-                    }
-                } else {
-                    modalDialog.find('.modal-body').html(response);
+        $.getJSON(data['url'], function(result) {
+            if (result.data) {
+                modalDialog.find('.modal-body').html(result.data);
+                if (result.modalSize) {
+                    modalDialog.find('.modal-dialog')
+                        .removeClass('modal-sm')
+                        .removeClass('modal-lg')
+                        .removeClass('modal-xl')
+                        .addClass(result.modalSize);
                 }
-            } catch (err) {
+                if (result.modalTitle) {
+                    modalDialog.find('.modal-title').html(result.modalTitle);
+                }
+                if (result.modalCancel) {
+                    modalDialog.find('.btn[data-bs-dismiss="modal"]').html(result.modalCancel);
+                }
+                if (result.modalSubmit) {
+                    modalDialog.find('#modal-submit').html(result.modalSubmit);
+                }
+            } else {
                 modalDialog.find('.modal-body').html(result);
             }
+        }).fail(function(result) {
+            modalDialog.find('.modal-body').html(result.responseText);
         });
     }
     modalDialog.modal('show');
