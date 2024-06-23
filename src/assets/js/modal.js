@@ -34,17 +34,17 @@ function loadForm(data) {
 $('body')
     .on('submit', '#modal-edit form',function (event) {
         event.preventDefault();
-        $.post($(this).attr("action"), $(this).serialize())
-            .done(function(result) {
-                let resultObj = JSON.parse(result);
-                if (resultObj) {
-                    if (resultObj.hasOwnProperty('data')) {
-                        $("#modal-edit").find('.modal-body').html(resultObj.data);
-                    }
-                    if (resultObj.hasOwnProperty('message')) {
-                        $('#modalToast').find('.toast-body').html(resultObj.message);
-                        $("#modalToast").toast('show');
-                    }
+
+        let opts = {
+            url: $(this).attr("action"),
+            data: false,
+            cache: false,
+            method: 'POST',
+            type: 'POST',
+            dataType: 'json',
+            success: function(result) {
+                if (result.hasOwnProperty('data')) {
+                    $("#modal-edit").find('.modal-body').html(result.data);
                 } else {
                     let pjaxModalContainer = $('div[data-pjax-container]');
                     if (pjaxModalContainer.length) {
@@ -52,11 +52,24 @@ $('body')
                     }
                     $("#modal-edit").modal('hide');
                 }
-            })
-            .fail(function(){
-                    console.log("Modal form submit error");
+                if (result.hasOwnProperty('message')) {
+                    $('#modalToast').find('.toast-body').html(result.message);
+                    $("#modalToast").toast('show');
                 }
-            );
+            },
+            error: function (result) {
+                $("#modal-edit").find('.modal-body').html(result.responseText);
+            }
+        };
+
+        if ($(this).attr('enctype')) {
+            opts.data = new FormData($(this)[0]);
+            opts.contentType = false;
+            opts.processData = false;
+        } else {
+            opts.data = $(this).serialize();
+        }
+        $.ajax(opts);
     })
     .on('click', '#modal-submit',function () {
         $('body').find('#modal-edit').find('form').submit();
