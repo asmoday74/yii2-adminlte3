@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * @var $modalTitle string
+ * @var $modalSize string
+ * @var $cancelName string
+ * @var $submitName string
+ * @var $toastPosition string
+ */
+
 use yii\bootstrap5\Modal;
 
 Modal::begin([
@@ -13,7 +21,7 @@ echo '<div class="modal-edit-content"></div>';
 Modal::end();
 ?>
 
-<div class="position-fixed bottom-0 start-0 p-3" style="z-index: 11">
+<div class="<?= $toastPosition; ?>" style="z-index: 11">
     <div id="modalToast" class="toast hide text-white bg-success" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-body">
         </div>

@@ -60,7 +60,7 @@ class ToastAlert extends Widget
                         <div class="toast-body">
                             <?= $message ?>
                         </div>
-                        <button type="button" class="btn-close btn-close-white m-auto p-3" data-bs-dismiss="toast" aria-label="Закрыть"></button>
+                        <button type="button" class="btn-close btn-close-white me-2 my-auto ml-auto" data-bs-dismiss="toast" aria-label="Закрыть"></button>
                     </div>
                 </div>                
                 <?

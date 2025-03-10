@@ -28,10 +28,15 @@ class Module extends \yii\base\Module
      */
     public $description = "AdminLTE Bootstrap Admin Dashboard Template";
 
+    /**
+     * @var string
+     */
+    public $toastPosition = 'bottom-left';
+
+
     public function init()
     {
         parent::init();
-
         $this->registerTranslations();
     }
 

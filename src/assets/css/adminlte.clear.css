@@ -1,0 +1,29 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    background-color: #e9ecef;
+}
+
+.site-page {
+    width: 100%;
+    max-width: 330px;
+    margin: auto;
+}
+
+.page-logo {
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 0.9rem;
+    text-align: center;
+}
+
+.page-logo a {
+    color: rgb(73, 80, 87);
+    text-decoration: none;
+
+}

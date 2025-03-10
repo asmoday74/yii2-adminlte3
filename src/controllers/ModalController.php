@@ -23,11 +23,20 @@ class ModalController extends Controller
         $cancelName = ArrayHelper::getValue($data, 'cancel', \Yii::t('app', 'Cancel'));
         $submitName = ArrayHelper::getValue($data, 'submit', \Yii::t('app', 'Save'));
 
+        switch ($this->module->toastPosition) {
+            case 'bottom-left': $toastPosition = 'position-fixed bottom-0 start-0 p-3'; break;
+            case 'bottom-right': $toastPosition = 'position-fixed bottom-0 end-0 p-3'; break;
+            case 'top-left': $toastPosition = 'position-fixed top-0 start-0 p-3'; break;
+            case 'top-right': $toastPosition = 'position-fixed top-0 end-0 p-3'; break;
+            default: $toastPosition = $this->module->toastPosition;
+        }
+
         return $this->renderPartial('index', [
             'modalSize' => $modalSize,
             'modalTitle' => $modalTitle,
             'cancelName' => $cancelName,
-            'submitName' => $submitName
+            'submitName' => $submitName,
+            'toastPosition' => $toastPosition
         ]);
     }
 }

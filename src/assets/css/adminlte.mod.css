@@ -2,3 +2,6 @@
     margin-bottom: 0 !important;
     background-color: transparent !important;
 }
+.form-group.has-error .help-block {
+    color: var(--bs-danger);
+}
