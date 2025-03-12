@@ -1,23 +1,14 @@
 <?php
 
 /**
- * @var $modalTitle string
- * @var $modalSize string
- * @var $cancelName string
- * @var $submitName string
+ * @var $modalConfig []
  * @var $toastPosition string
  */
 
 use yii\bootstrap5\Modal;
 
-Modal::begin([
-    'id' => 'modal-edit',
-    'title' => $modalTitle,
-    'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . $cancelName . '</button>
-        <button id="modal-submit" type="button" class="btn btn-primary">' . $submitName . '</button>',
-    'size' => $modalSize,
-]);
-echo '<div class="modal-edit-content"></div>';
+Modal::begin($modalConfig);
+    echo '<div class="modal-edit-content"></div>';
 Modal::end();
 ?>
 

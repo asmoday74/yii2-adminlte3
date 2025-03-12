@@ -20,8 +20,8 @@ class ModalController extends Controller
         $data = \Yii::$app->request->post();
         $modalSize = ArrayHelper::getValue($data, 'size', Modal::SIZE_EXTRA_LARGE);
         $modalTitle = ArrayHelper::getValue($data, 'title', '');
-        $cancelName = ArrayHelper::getValue($data, 'cancel', \Yii::t('app', 'Cancel'));
-        $submitName = ArrayHelper::getValue($data, 'submit', \Yii::t('app', 'Save'));
+        $cancelName = ArrayHelper::getValue($data, 'cancel', false);
+        $submitName = ArrayHelper::getValue($data, 'submit', false);
 
         switch ($this->module->toastPosition) {
             case 'bottom-left': $toastPosition = 'position-fixed bottom-0 start-0 p-3'; break;
@@ -31,11 +31,35 @@ class ModalController extends Controller
             default: $toastPosition = $this->module->toastPosition;
         }
 
+        $footer = false;
+
+        if ($cancelName !== false) {
+            $footer = \yii\bootstrap5\Html::button($cancelName, [
+                'class' => 'btn btn-secondary',
+                'data' => [
+                    'bs-dismiss' => 'modal'
+                ]
+            ]);
+        }
+        if ($submitName !== false) {
+            $footer .= \yii\bootstrap5\Html::button($submitName, [
+                'id' => 'modal-submit',
+                'class' => 'btn btn-primary',
+                'data' => [
+                    'bs-dismiss' => 'modal'
+                ]
+            ]);
+        }
+
+        $modalConfig = [
+            'id' => 'modal-edit',
+            'title' => $modalTitle,
+            'size' => $modalSize,
+            'footer' => $footer
+        ];
+
         return $this->renderPartial('index', [
-            'modalSize' => $modalSize,
-            'modalTitle' => $modalTitle,
-            'cancelName' => $cancelName,
-            'submitName' => $submitName,
+            'modalConfig' => $modalConfig,
             'toastPosition' => $toastPosition
         ]);
     }

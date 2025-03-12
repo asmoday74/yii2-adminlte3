@@ -6,7 +6,6 @@ namespace asmoday74\adminlte3;
 use Yii;
 use yii\helpers\Json;
 
-
 class Module extends \yii\base\Module
 {
     /**
@@ -31,7 +30,7 @@ class Module extends \yii\base\Module
     /**
      * @var string
      */
-    public $toastPosition = 'bottom-left';
+    public $toastPosition = 'bottom-right';
 
 
     public function init()

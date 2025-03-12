@@ -1,29 +1,58 @@
-function loadForm(data) {
+function setModalParam(params) {
     let modalDialog = $("#modal-edit");
-    $.getJSON(data['url'], function(result) {
-        if (result.data) {
-            modalDialog.find('.modal-body').html(result.data);
-            if (result.modalSize) {
-                modalDialog.find('.modal-dialog')
-                    .removeClass('modal-sm')
-                    .removeClass('modal-lg')
-                    .removeClass('modal-xl')
-                    .addClass(result.modalSize);
-            }
-            if (result.modalTitle) {
-                modalDialog.find('.modal-title').html(result.modalTitle);
-            }
-            if (result.modalCancel) {
-                modalDialog.find('.btn[data-bs-dismiss="modal"]').html(result.modalCancel);
-            }
-            if (result.modalSubmit) {
-                modalDialog.find('#modal-submit').html(result.modalSubmit);
-            }
-        } else {
-            modalDialog.find('.modal-body').html(result);
+    if (params.size) {
+        modalDialog.find('.modal-dialog')
+            .removeClass('modal-sm')
+            .removeClass('modal-lg')
+            .removeClass('modal-xl')
+            .addClass(params.size);
+    }
+    if (params.title) {
+        modalDialog.find('.modal-title').html(params.title);
+    }
+
+    let buttonCancel = modalDialog.find('.btn[data-bs-dismiss="modal"]');
+    if (params.cancel) {
+        if (buttonCancel.is(":hidden")) {
+            buttonCancel.show();
         }
-    }).fail(function(result) {
-        modalDialog.find('.modal-body').html(result.responseText);
+        buttonCancel.html(params.cancel);
+    } else {
+        buttonCancel.hide();
+    }
+
+    let buttonSubmit = modalDialog.find('#modal-submit');
+    if (params.submit) {
+        if (buttonSubmit.is(":hidden")) {
+            buttonSubmit.show();
+        }
+        buttonSubmit.html(params.submit);
+    } else {
+        buttonSubmit.hide();
+    }
+}
+
+function loadData(data) {
+    setModalParam(data);
+    let modalDialog = $("#modal-edit");
+    $.ajax({
+        url: data.url,
+        method: "POST",
+        success: function(result) {
+            if (typeof result === 'object') {
+                if (result.data) {
+                    setModalParam(result.data);
+                    modalDialog.find('.modal-body').html(result.data);
+                } else {
+                    modalDialog.find('.modal-body').html(result);
+                }
+            } else {
+                modalDialog.find('.modal-body').html(result);
+            }
+        },
+        error: function () {
+            modalDialog.find('.modal-body').html(result.responseText);
+        }
     });
     modalDialog.modal('show');
 }
@@ -73,10 +102,10 @@ $('body')
     })
     .on('click', '.modal-edit-toggle', function (event) {
         let modalParam = $(this).data();
-        if (modalParam['url'] === undefined) {
-            modalParam['url'] = $(this).attr('href');
+        if (modalParam.url === undefined) {
+            modalParam.url = $(this).attr('href');
         }
-        if ((modalParam['url'] !== '#') && (modalParam['url'] !== "")) {
+        if ((modalParam.url !== '#') && (modalParam.url !== "")) {
             event.preventDefault();
             if ($('#modal-edit').length === 0) {
                 $.ajax({
@@ -86,11 +115,11 @@ $('body')
                     url: '/adminlte/modal',
                     success: function (data) {
                         $('body').append(data);
-                        loadForm(modalParam);
+                        loadData(modalParam);
                     }
                 });
             } else {
-                loadForm(modalParam);
+                loadData(modalParam);
             }
         }
     });
