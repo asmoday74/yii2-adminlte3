@@ -31,31 +31,23 @@ class ModalController extends Controller
             default: $toastPosition = $this->module->toastPosition;
         }
 
-        $footer = false;
-
-        if ($cancelName !== false) {
-            $footer = \yii\bootstrap5\Html::button($cancelName, [
-                'class' => 'btn btn-secondary',
-                'data' => [
-                    'bs-dismiss' => 'modal'
-                ]
-            ]);
-        }
-        if ($submitName !== false) {
-            $footer .= \yii\bootstrap5\Html::button($submitName, [
-                'id' => 'modal-submit',
-                'class' => 'btn btn-primary',
-                'data' => [
-                    'bs-dismiss' => 'modal'
-                ]
-            ]);
-        }
-
         $modalConfig = [
             'id' => 'modal-edit',
             'title' => $modalTitle,
             'size' => $modalSize,
-            'footer' => $footer
+            'footer' => \yii\bootstrap5\Html::button($cancelName ? $cancelName : '', [
+                    'class' => 'btn btn-secondary',
+                    'data' => [
+                        'bs-dismiss' => 'modal'
+                    ]
+                ]).
+                \yii\bootstrap5\Html::button($submitName ? $submitName : '', [
+                    'id' => 'modal-submit',
+                    'class' => 'btn btn-primary',
+                    'data' => [
+                        'bs-dismiss' => 'modal'
+                    ]
+                ])
         ];
 
         return $this->renderPartial('index', [
