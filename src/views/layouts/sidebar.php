@@ -1,5 +1,5 @@
 <?php
-$baseAssetDir = Yii::$app->assetManager->getPublishedUrl('@vendor/asmoday74/yii2-adminlte3/src/assets');
+$baseAssetDir = Yii::$app->assetManager->getPublishedUrl('@vendor/asmoday74/yii2-adminlte3/src/assets/dist');
 ?>
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
