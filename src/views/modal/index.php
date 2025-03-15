@@ -8,7 +8,14 @@
 use yii\bootstrap5\Modal;
 
 Modal::begin($modalConfig);
-    echo '<div class="modal-edit-content"></div>';
+?>
+<div class="modal-spinner">
+    <div class="spinner-border m-auto" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+<div class="modal-edit-content"></div>
+<?php
 Modal::end();
 ?>
 

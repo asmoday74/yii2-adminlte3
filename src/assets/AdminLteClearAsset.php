@@ -5,7 +5,7 @@ use yii\web\AssetBundle;
 
 class AdminLteClearAsset extends AssetBundle
 {
-    public $sourcePath = '@vendor/asmoday74/yii2-adminlte3/src/assets';
+    public $sourcePath = '@vendor/asmoday74/yii2-adminlte3/src/assets/dist';
 
     public $css = [
         'css/adminlte.clear.css'

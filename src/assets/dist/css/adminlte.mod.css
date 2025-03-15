@@ -1,0 +1,21 @@
+.nav-breadcrumb {
+    margin-bottom: 0 !important;
+    background-color: transparent !important;
+}
+.form-group.has-error .help-block {
+    color: var(--bs-danger);
+}
+
+
+#modal-edit .modal-body {
+    display: grid;
+}
+#modal-edit .modal-body .modal-spinner {
+    display: flex;
+    grid-area: 1 / 1;
+    z-index: 100;
+    background-color: color-mix(in srgb, var(--bs-body-bg) 60%, transparent);
+}
+#modal-edit .modal-body .modal-edit-content {
+    grid-area: 1 / 1;
+}

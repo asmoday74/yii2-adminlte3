@@ -43,10 +43,7 @@ class ModalController extends Controller
                 ]).
                 \yii\bootstrap5\Html::button($submitName ? $submitName : '', [
                     'id' => 'modal-submit',
-                    'class' => 'btn btn-primary',
-                    'data' => [
-                        'bs-dismiss' => 'modal'
-                    ]
+                    'class' => 'btn btn-primary'
                 ])
         ];
 
