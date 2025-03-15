@@ -65,7 +65,7 @@ function loadData(data) {
                 modalContent.html(result);
             }
         })
-        .always(function (result) {
+        .always(function () {
             modalSpinner.hide();
         });
     modalDialog.modal('show');
@@ -94,10 +94,9 @@ $('body')
         $.ajax(opts)
             .done(function(result) {
                 let modalDialogContent = $("#modal-edit").find('.modal-body').find('.modal-edit-content');
-                let jsonData = JSON.parse(result);
-                if (typeof jsonData === 'object') {
+                if (typeof result === 'object') {
                     if (result.hasOwnProperty('data')) {
-                        modalDialogContent.html(jsonData.data);
+                        modalDialogContent.html(result.data);
                     } else {
                         let pjaxModalContainer = $('div[data-pjax-container]');
                         if (pjaxModalContainer.length) {
@@ -105,8 +104,8 @@ $('body')
                         }
                         $("#modal-edit").modal('hide');
                     }
-                    if (jsonData.hasOwnProperty('message')) {
-                        $('#modalToast').find('.toast-body').html(jsonData.message);
+                    if (result.hasOwnProperty('message')) {
+                        $('#modalToast').find('.toast-body').html(result.message);
                         $("#modalToast").toast('show');
                     }
                 }
